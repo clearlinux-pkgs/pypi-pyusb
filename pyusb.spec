@@ -6,10 +6,10 @@
 #
 Name     : pyusb
 Version  : 1.0.2
-Release  : 5
+Release  : 6
 URL      : https://files.pythonhosted.org/packages/5f/34/2095e821c01225377dda4ebdbd53d8316d6abb243c9bee43d3888fa91dd6/pyusb-1.0.2.tar.gz
 Source0  : https://files.pythonhosted.org/packages/5f/34/2095e821c01225377dda4ebdbd53d8316d6abb243c9bee43d3888fa91dd6/pyusb-1.0.2.tar.gz
-Source99 : https://files.pythonhosted.org/packages/5f/34/2095e821c01225377dda4ebdbd53d8316d6abb243c9bee43d3888fa91dd6/pyusb-1.0.2.tar.gz.asc
+Source1  : https://files.pythonhosted.org/packages/5f/34/2095e821c01225377dda4ebdbd53d8316d6abb243c9bee43d3888fa91dd6/pyusb-1.0.2.tar.gz.asc
 Summary  : Python USB access module
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -19,9 +19,10 @@ Requires: pyusb-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
 
 %description
-=======================================
-PyUSB 1.0 - Easy USB access from Python
-=======================================
+PyUSB offers easy USB devices communication in Python.
+It should work without additional code in any environment with
+Python >= 2.4, ctypes and an pre-built usb backend library
+(currently, libusb 0.1.x, libusb 1.x, and OpenUSB).
 
 %package license
 Summary: license components for the pyusb package.
@@ -44,6 +45,7 @@ python components for the pyusb package.
 Summary: python3 components for the pyusb package.
 Group: Default
 Requires: python3-core
+Provides: pypi(pyusb)
 
 %description python3
 python3 components for the pyusb package.
@@ -51,20 +53,31 @@ python3 components for the pyusb package.
 
 %prep
 %setup -q -n pyusb-1.0.2
+cd %{_builddir}/pyusb-1.0.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1549216182
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1583216767
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pyusb
-cp LICENSE %{buildroot}/usr/share/package-licenses/pyusb/LICENSE
+cp %{_builddir}/pyusb-1.0.2/LICENSE %{buildroot}/usr/share/package-licenses/pyusb/9ccac9610ef93e28db2725319f2357157218f201
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -75,7 +88,7 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pyusb/LICENSE
+/usr/share/package-licenses/pyusb/9ccac9610ef93e28db2725319f2357157218f201
 
 %files python
 %defattr(-,root,root,-)
