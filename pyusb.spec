@@ -4,7 +4,7 @@
 #
 Name     : pyusb
 Version  : 1.1.0
-Release  : 10
+Release  : 11
 URL      : https://files.pythonhosted.org/packages/12/9b/8f5be839753667c39fe522162bea7f8121f28ba49c5ad1e5681681967c79/pyusb-1.1.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/12/9b/8f5be839753667c39fe522162bea7f8121f28ba49c5ad1e5681681967c79/pyusb-1.1.0.tar.gz
 Summary  : Python USB access module
