@@ -1,5 +1,5 @@
 PKG_NAME := pyusb
-URL = https://files.pythonhosted.org/packages/12/9b/8f5be839753667c39fe522162bea7f8121f28ba49c5ad1e5681681967c79/pyusb-1.1.0.tar.gz
+URL = https://files.pythonhosted.org/packages/b9/8d/25c4e446a07e918eb39b5af25c4a83a89db95ae44e4ed5a46c3c53b0a4d6/pyusb-1.1.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
